@@ -29,7 +29,9 @@ int main(){
 
 	//Print the final values
 	printf("Area under the curve for tan(x) from 0 to PI/3: %f\n",fx);
-	printf("Value of log(2): %f\n",log(2));
+	printf("Value of log(2): %f\n",logf(2));
+	printf("Absolute difference: %f\n", fabs(fx-logf(2)));
+    	printf("Relative difference: %f\n", fabs(1-(fx/logf(2))));
 
 	return 0;
 
