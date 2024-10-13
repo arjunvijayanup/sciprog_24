@@ -6,4 +6,4 @@ This is the folder which contains files for Practical 3
 
 ## Execute
 
-* ./AreaUnderCurve.c
+* ./AreaUnderCurve
