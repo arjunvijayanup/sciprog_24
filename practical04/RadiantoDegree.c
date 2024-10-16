@@ -1,48 +1,53 @@
 #include<stdio.h>
 #include<math.h>
+#include<stdlib.h>
+float *tan_array = NULL;
 
-float tan_array[12];
-int degree_array[12];
+float degtorad(float degree){		// Function for converting degree to radian
+	float pi=3.14159265;
+	return ((pi * degree)/180);
+}
+
+float traprule(int N){				// Function for calculation of Trapezoidal Area (excluding b-a/2n term)
+	float area;
+	
+	area=tan_array[0]+tan_array[N];
+	printf("\nInital Area (sum at x(0) and x(12)) = %f\n", area);
+
+	for(int i=1;i<N;i++){
+		area+=2*tan_array[i];
+
+	}
+
+	return area;
+}
+
 int main(){
+	int N=12;
+	tan_array = (float *)malloc(N * sizeof(int)); 	// Allocate memmery in array for N integers
 
 	// Initialize variables
-	float a,b,b_rad,fx,sum,n,h,x;
-	int i, degree; 
+	float adeg,bdeg,H,degree;
 
-	// Setting the integration limits and no. of divisions
-	a=0;
-	b=60;
-	n=12;
-	h=((b-a)/n)*(M_PI/180);
+	// Setting the integration limits in degrees
+	adeg=0;
+	bdeg=60;
 
-	// Sum of first part tan(0) and tan (pi/3)
-    b_rad=(M_PI * b)/180;
-	sum=tan(a)+tan(b_rad);
-    degree_array[0]=0;
-    degree_array[12]=60;
-    tan_array[0]=tan(a);
-    tan_array[12]=tan(b_rad);
+	H=((degtorad(bdeg)-degtorad(adeg))/(2*N));		// Calculation of b-a/2n in radian values
 
-	// Trapezoidal Rule: For-loop for calculating the sum of all other tan values
-	for(i=1;i<n;i++){
+	for(int i=0; i<=N; i++){						// Loop which prints each tan array value
+		degree=i*5;
+		tan_array[i]=tan(degtorad(degree));
+		printf("\ntan_array[%d] = %f\n",i,tan_array[i]);
+	}
 
-		x=(i*h);
-        tan_array[i]=tan(x);
-        degree_array[i]=i*h*57.2958;
-		sum+=2*tan(x);
-    
-		}
+	float traparea = H * traprule(N);				// Trapezoidal Area calulcation
 
-	// Final calculation of area
-	fx=(h/2)*sum;
-
-	//Print the final values
-	printf("\nArea under the curve for tan(x) from 0 to PI/3: %f\n",fx);
-    printf("\nTan values for each radian values and respective degree values are:\n");
-    for (i=0;i<=n;i++){
-        printf("%f    %d degrees\n",tan_array[i],degree_array[i]);
-    }
+	// Approx Result
+	printf("\nArea (Using Trapezoidal Rule): %f\n", traparea);
+	
+	// Actual Result
+	printf("\nArea (Using log of 2): %f\n\n", logf(2));
 
 	return 0;
-
 }
